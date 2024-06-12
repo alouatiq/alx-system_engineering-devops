@@ -1,2 +1,9 @@
 #!/bin/bash
+
+# Copy HTML files to parent directory, only if they are newer or don't exist there
 rsync -av --ignore-existing --include '*/' --include '*.html' --exclude '*' ./ ../
+
+# Output the details of copied files
+for file in *.html; do
+    ls -l "/tmp/$file"
+done
