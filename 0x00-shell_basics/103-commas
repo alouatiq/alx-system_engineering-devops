@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -p -a | awk '{printf "%s, ", $0}' | sed 's/,$/\n/' 
+ls -Ap | awk 'BEGIN {ORS=", "} {print} END {print ""}'
