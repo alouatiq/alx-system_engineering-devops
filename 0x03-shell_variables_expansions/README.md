@@ -1,50 +1,114 @@
-# Mastering Shell Scripting: Initialization Files, Variables, and Expansions
+# Shell, init files, variables and expansions
 
-Welcome to our deep dive into the world of shell scripting! In this project, part of the ALX System Engineering and DevOps curriculum, we will unravel the intricacies of shell initialization files, variables, and expansions. By the end of this journey, you'll have a robust understanding of these concepts, enabling you to harness the full power of shell scripting.
+## Project Description
+This project is focused on exploring shell scripting, including the use of init files, variables, and expansions. The tasks cover a wide range of topics, such as creating aliases, manipulating environment variables, performing arithmetic operations, and more.
 
-## Project Overview
+### General
+- What happens when you type `$ ls -l *.txt`
 
-- **Start Date**: June 19, 2024, 5:00 AM
-- **End Date**: June 20, 2024, 5:00 AM
-- **Checker Release**: June 19, 2024, 11:00 AM
-- **Auto Review**: Initiated at the deadline
+### Shell Initialization Files
+- What are the `/etc/profile` file and the `/etc/profile.d` directory
+- What is the `~/.bashrc` file
 
-## Why Shell Scripting?
+### Variables
+- What is the difference between a local and a global variable
+- What is a reserved variable
+- How to create, update and delete shell variables
+- What are the roles of the following reserved variables: `HOME`, `PATH`, `PS1`
+- What are special parameters
 
-Shell scripting is a vital skill for any DevOps professional. It allows you to automate tasks, manage system configurations, and streamline your workflow. Understanding shell initialization files, variables, and expansions is crucial because they form the foundation of effective shell scripting.
+### Expansions
+- What is expansion and how to use them
+- What is the difference between single and double quotes and how to use them properly
+- How to do command substitution with `$()` and backticks
 
-## Key Concepts
+### Shell Arithmetic
+- How to perform arithmetic operations with the shell
 
-### 1. Shell Initialization Files
+### The `alias` Command
+- How to create an alias
+- How to list aliases
+- How to temporarily disable an alias
 
-When you start a shell session, several scripts are executed to configure your environment. Key files include:
-- **/etc/profile**: A system-wide initialization file that sets up environment variables.
-- **~/.bashrc**: A user-specific file that configures the shell environment for each session.
+### Other `Help` Pages
+- How to execute commands from a file in the current shell
 
-### 2. Variables
+## Usage
+To use the scripts in this project, follow these steps:
 
-Variables store data that your scripts can use. They come in two flavors:
-- **Local Variables**: Exist only within the current shell session.
-- **Global Variables**: Persist across multiple sessions.
-Reserved variables like `HOME`, `PATH`, and `PS1` play essential roles in the shell environment.
+1. Clone the repository:
+```
+git clone https://github.com/your-username/alx-system_engineering-devops.git
+```
 
-### 3. Expansions
+2. Navigate to the `0x03-shell_variables_expansions` directory:
+```
+cd alx-system_engineering-devops/0x03-shell_variables_expansions
+```
 
-Expansions allow you to manipulate and use variables in your scripts efficiently. They include:
-- **Parameter Expansion**: Using variables in your scripts.
-- **Command Substitution**: Capturing the output of commands.
-- **Arithmetic Expansion**: Performing mathematical operations.
+3. Run the desired script:
+```
+./script_name.sh
+```
 
-## Practical Application
+Replace `script_name.sh` with the name of the script you want to run.
 
-To solidify your understanding, we'll create scripts that utilize these concepts. Each script will have a specific purpose, demonstrating real-world applications of shell scripting.
+## Additional Resources
+- Read your `/etc/profile`, `/etc/inputrc` and `~/.bashrc` files.
+- Look at some files in the `/etc/profile.d` directory.
 
-## Example Scripts
+  ## Tasks/files
 
-### Script 1: Creating an Alias
+1. **0-alias**
+   - Creates an alias named `ls` that executes `rm *`.
 
-Aliases simplify command usage. This script creates an alias `ls` that actually performs `rm *`, a powerful (and dangerous) command that deletes all files in the current directory.
+2. **1-hello_you**
+   - Prints "hello \<user\>", where \<user\> is the current Linux user.
 
-```bash
-#!/bin/bash
-alias ls='rm *'
+3. **2-path**
+   - Adds `/action` to the `PATH` environment variable.
+
+4. **3-paths**
+   - Counts the number of directories in the `PATH`.
+
+5. **4-global_variables**
+   - Lists all environment variables.
+
+6. **5-local_variables**
+   - Lists all local variables, environment variables, and functions.
+
+7. **6-create_local_variable**
+   - Creates a new local variable named `BEST` with the value `School`.
+
+8. **7-create_global_variable**
+   - Creates a new global variable named `BEST` with the value `School`.
+
+9. **8-true_knowledge**
+   - Prints the result of adding 128 with the value stored in the environment variable `TRUEKNOWLEDGE`.
+
+10. **9-divide_and_rule**
+    - Prints the result of dividing the value stored in `POWER` by `DIVIDE`.
+
+11. **10-love_exponent_breath**
+    - Displays the result of raising `BREATH` to the power of `LOVE`.
+
+12. **11-binary_to_decimal**
+    - Converts a binary number stored in `BINARY` to decimal.
+
+13. **12-combinations**
+    - Prints all possible combinations of two letters from a to z, excluding "oo".
+
+14. **13-print_float**
+    - Prints the value stored in `NUM` with two decimal places.
+
+15. **100-decimal_to_hexadecimal**
+    - Converts a decimal number stored in `DECIMAL` to hexadecimal.
+
+16. **101-rot13**
+    - Encrypts and decrypts text using the rot13 encryption.
+
+17. **102-odd**
+    - Prints every other line from the input.
+
+18. **103-water_and_stir**
+    - Adds numbers stored in `WATER` and `STIR`, with results in `bestchol`.
