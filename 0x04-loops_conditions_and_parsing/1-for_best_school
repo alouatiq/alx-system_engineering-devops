@@ -3,5 +3,5 @@
 
 for i in {1..10}
 do
-  echo "Best School"
+  echo "Best School ($i)"  # Including $i to use the variable
 done
