@@ -1,6 +1,3 @@
-# Define the directory containing the scripts
-DIR = 0x04-loops_conditions_and_parsing
-
 # List all script files to be processed
 SCRIPTS = 0-RSA_public_key.pub 1-for_best_school 2-while_best_school 3-until_best_school \
           4-if_9_say_hi 5-4_bad_luck_8_is_your_chance 6-superstitious_numbers 7-clock \
@@ -14,7 +11,7 @@ all: make_executable test_scripts
 make_executable:
 	@echo "Making scripts executable..."
 	@for script in $(SCRIPTS); do \
-		chmod +x $(DIR)/$$script; \
+		chmod +x $$script; \
 	done
 	@echo "All scripts are now executable."
 
@@ -23,7 +20,7 @@ test_scripts:
 	@echo "Testing scripts..."
 	@for script in $(SCRIPTS); do \
 		echo "Running $$script..."; \
-		$(DIR)/$$script || echo "$$script failed"; \
+		./$$script || echo "$$script failed"; \
 	done
 	@echo "All tests completed."
 
@@ -31,6 +28,6 @@ test_scripts:
 clean:
 	@echo "Removing executable permissions..."
 	@for script in $(SCRIPTS); do \
-		chmod -x $(DIR)/$$script; \
+		chmod -x $$script; \
 	done
 	@echo "Permissions reset."
