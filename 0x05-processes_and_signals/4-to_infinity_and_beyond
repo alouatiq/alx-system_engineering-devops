@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script that displays "To infinity and beyond" indefinitely with a 2-second interval
+# Script that displays "To infinity and beyond"
 
 while true; do
 echo "To infinity and beyond"
