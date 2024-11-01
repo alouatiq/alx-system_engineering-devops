@@ -26,7 +26,7 @@ $(C_EXEC): $(C_PROGRAM)
 	@gcc $(C_PROGRAM) -o $(C_EXEC)
 	@echo "C program compiled to $(C_EXEC)."
 
-# Run individual scripts with timeout if needed
+# Run a script with a timeout if specified
 define run_with_timeout
 	@echo "Running $(1):"
 	@if [[ "$(1)" == "4-to_infinity_and_beyond" || "$(1)" == "7-highlander" ]]; then \
