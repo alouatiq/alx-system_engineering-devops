@@ -26,59 +26,36 @@ $(C_EXEC): $(C_PROGRAM)
 	@gcc $(C_PROGRAM) -o $(C_EXEC)
 	@echo "C program compiled to $(C_EXEC)."
 
-# Run individual scripts
-run-0: 0-what-is-my-pid
-	@./0-what-is-my-pid
+# Run individual scripts with timeout if needed
+define run_with_timeout
+	@echo "Running $(1):"
+	@if [[ "$(1)" == "4-to_infinity_and_beyond" || "$(1)" == "7-highlander" ]]; then \
+		timeout $(TIMEOUT) ./$(1) || true; \
+	else \
+		./$(1) || true; \
+	fi
+endef
 
-run-1: 1-list_your_processes
-	@./1-list_your_processes
+# Specific script targets
+run-0: ; $(call run_with_timeout,0-what-is-my-pid)
+run-1: ; $(call run_with_timeout,1-list_your_processes)
+run-2: ; $(call run_with_timeout,2-show_your_bash_pid)
+run-3: ; $(call run_with_timeout,3-show_your_bash_pid_made_easy)
+run-4: ; $(call run_with_timeout,4-to_infinity_and_beyond)
+run-5: ; $(call run_with_timeout,5-dont_stop_me_now)
+run-6: ; $(call run_with_timeout,6-stop_me_if_you_can)
+run-7: ; $(call run_with_timeout,7-highlander)
+run-67: ; $(call run_with_timeout,67-stop_me_if_you_can)
+run-8: ; $(call run_with_timeout,8-beheaded_process)
+run-100: ; $(call run_with_timeout,100-process_and_pid_file)
+run-101: ; $(call run_with_timeout,101-manage_my_process)
+run-manage: ; $(call run_with_timeout,manage_my_process)
+run-zombie: ; $(call run_with_timeout,$(C_EXEC))
 
-run-2: 2-show_your_bash_pid
-	@./2-show_your_bash_pid
-
-run-3: 3-show_your_bash_pid_made_easy
-	@./3-show_your_bash_pid_made_easy
-
-# Run indefinitely looping scripts with a timeout
-run-4: 4-to_infinity_and_beyond
-	@timeout $(TIMEOUT) ./4-to_infinity_and_beyond || true
-
-run-5: 5-dont_stop_me_now
-	@./5-dont_stop_me_now
-
-run-6: 6-stop_me_if_you_can
-	@./6-stop_me_if_you_can
-
-run-7: 7-highlander
-	@timeout $(TIMEOUT) ./7-highlander || true
-
-run-67: 67-stop_me_if_you_can
-	@./67-stop_me_if_you_can
-
-run-8: 8-beheaded_process
-	@./8-beheaded_process
-
-run-100: 100-process_and_pid_file
-	@sudo ./100-process_and_pid_file
-
-run-101: 101-manage_my_process
-	@sudo ./101-manage_my_process start
-
-run-manage: manage_my_process
-	@./manage_my_process
-
-run-zombie: $(C_EXEC)
-	@./$(C_EXEC)
-
-# Run all scripts, with timeout for indefinite ones
+# Run all scripts sequentially, handling long-running ones with timeout
 run-all: $(SCRIPTS) $(C_EXEC)
 	@for script in $(SCRIPTS); do \
-		echo "Running $$script:"; \
-		if [[ "$$script" == "4-to_infinity_and_beyond" || "$$script" == "7-highlander" ]]; then \
-			timeout $(TIMEOUT) ./$$script || true; \
-		else \
-			./$$script || true; \
-		fi; \
+		$(call run_with_timeout,$$script); \
 	done
 	@echo "Running zombie process demo:"
 	@./$(C_EXEC)
