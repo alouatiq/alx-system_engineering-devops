@@ -26,36 +26,31 @@ $(C_EXEC): $(C_PROGRAM)
 	@gcc $(C_PROGRAM) -o $(C_EXEC)
 	@echo "C program compiled to $(C_EXEC)."
 
-# Run a script with a timeout if specified
-define run_with_timeout
-	@echo "Running $(1):"
-	@if [[ "$(1)" == "4-to_infinity_and_beyond" || "$(1)" == "7-highlander" ]]; then \
-		timeout $(TIMEOUT) ./$(1) || true; \
-	else \
-		./$(1) || true; \
-	fi
-endef
+# Run individual scripts with or without a timeout
+run-0: ; @./0-what-is-my-pid
+run-1: ; @./1-list_your_processes
+run-2: ; @./2-show_your_bash_pid
+run-3: ; @./3-show_your_bash_pid_made_easy
+run-4: ; @timeout $(TIMEOUT) ./4-to_infinity_and_beyond || true
+run-5: ; @./5-dont_stop_me_now
+run-6: ; @./6-stop_me_if_you_can
+run-7: ; @timeout $(TIMEOUT) ./7-highlander || true
+run-67: ; @./67-stop_me_if_you_can
+run-8: ; @./8-beheaded_process
+run-100: ; @sudo ./100-process_and_pid_file
+run-101: ; @sudo ./101-manage_my_process start
+run-manage: ; @./manage_my_process
+run-zombie: ; @./$(C_EXEC)
 
-# Specific script targets
-run-0: ; $(call run_with_timeout,0-what-is-my-pid)
-run-1: ; $(call run_with_timeout,1-list_your_processes)
-run-2: ; $(call run_with_timeout,2-show_your_bash_pid)
-run-3: ; $(call run_with_timeout,3-show_your_bash_pid_made_easy)
-run-4: ; $(call run_with_timeout,4-to_infinity_and_beyond)
-run-5: ; $(call run_with_timeout,5-dont_stop_me_now)
-run-6: ; $(call run_with_timeout,6-stop_me_if_you_can)
-run-7: ; $(call run_with_timeout,7-highlander)
-run-67: ; $(call run_with_timeout,67-stop_me_if_you_can)
-run-8: ; $(call run_with_timeout,8-beheaded_process)
-run-100: ; $(call run_with_timeout,100-process_and_pid_file)
-run-101: ; $(call run_with_timeout,101-manage_my_process)
-run-manage: ; $(call run_with_timeout,manage_my_process)
-run-zombie: ; $(call run_with_timeout,$(C_EXEC))
-
-# Run all scripts sequentially, handling long-running ones with timeout
+# Run all scripts sequentially, applying timeout to specific scripts
 run-all: $(SCRIPTS) $(C_EXEC)
 	@for script in $(SCRIPTS); do \
-		$(call run_with_timeout,$$script); \
+		echo "Running $$script:"; \
+		if [[ "$$script" == "4-to_infinity_and_beyond" || "$$script" == "7-highlander" ]]; then \
+			timeout $(TIMEOUT) ./$$script || true; \
+		else \
+			./$$script || true; \
+		fi; \
 	done
 	@echo "Running zombie process demo:"
 	@./$(C_EXEC)
