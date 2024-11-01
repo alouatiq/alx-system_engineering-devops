@@ -9,6 +9,9 @@ SCRIPTS = 0-what-is-my-pid 1-list_your_processes 2-show_your_bash_pid 3-show_you
 C_PROGRAM = 102-zombie.c
 C_EXEC = zombie
 
+# Set a timeout for long-running scripts (in seconds)
+TIMEOUT = 5
+
 # Default target: make all scripts executable and build the C program
 all: chmod $(C_EXEC)
 	@echo "Setup complete. All scripts are executable and C program is compiled."
@@ -36,8 +39,9 @@ run-2: 2-show_your_bash_pid
 run-3: 3-show_your_bash_pid_made_easy
 	@./3-show_your_bash_pid_made_easy
 
+# Run indefinitely looping scripts with a timeout
 run-4: 4-to_infinity_and_beyond
-	@./4-to_infinity_and_beyond
+	@timeout $(TIMEOUT) ./4-to_infinity_and_beyond || true
 
 run-5: 5-dont_stop_me_now
 	@./5-dont_stop_me_now
@@ -46,7 +50,7 @@ run-6: 6-stop_me_if_you_can
 	@./6-stop_me_if_you_can
 
 run-7: 7-highlander
-	@./7-highlander
+	@timeout $(TIMEOUT) ./7-highlander || true
 
 run-67: 67-stop_me_if_you_can
 	@./67-stop_me_if_you_can
@@ -66,11 +70,15 @@ run-manage: manage_my_process
 run-zombie: $(C_EXEC)
 	@./$(C_EXEC)
 
-# Target to run all scripts (interactive scripts may require manual interruption)
+# Run all scripts, with timeout for indefinite ones
 run-all: $(SCRIPTS) $(C_EXEC)
 	@for script in $(SCRIPTS); do \
 		echo "Running $$script:"; \
-		./$$script || true; \
+		if [[ "$$script" == "4-to_infinity_and_beyond" || "$$script" == "7-highlander" ]]; then \
+			timeout $(TIMEOUT) ./$$script || true; \
+		else \
+			./$$script || true; \
+		fi; \
 	done
 	@echo "Running zombie process demo:"
 	@./$(C_EXEC)
