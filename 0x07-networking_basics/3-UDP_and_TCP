@@ -3,3 +3,6 @@
 # 1. TCP is a protocol that is transferring data in a slow way but surely.
 # 2. UDP is a protocol that is transferring data in a fast way and might lose data along in the process.
 # 3. TCP worker says: Have you received boxes x, y, z?
+1
+2
+1
