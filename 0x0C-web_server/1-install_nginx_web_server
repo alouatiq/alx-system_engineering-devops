@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Update and install Nginx
+sudo apt-get update -y
+sudo apt-get install nginx -y
+
+# Replace default HTML with "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
+
+# Start Nginx without systemctl
+sudo service nginx restart
