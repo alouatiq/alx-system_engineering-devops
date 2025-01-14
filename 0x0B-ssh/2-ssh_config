@@ -1,3 +1,5 @@
-Host *
-    IdentityFile ~/.ssh/id_rsa
+# SSH client configuration file
+
+Host 100.25.139.181
+    IdentityFile ~/.ssh/school
     PasswordAuthentication no
