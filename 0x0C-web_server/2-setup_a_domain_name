@@ -1,4 +1,1 @@
-#!/usr/bin/env bash
-# Outputs the domain name configured for the server
-
-echo "myschool.tech"
+digi101.tech
