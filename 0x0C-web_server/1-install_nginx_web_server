@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 # Installs and configures Nginx on an Ubuntu machine
-
-# Update package list and install Nginx
-apt-get update -y
-apt-get install -y nginx
-
-# Create a custom HTML file with "Hello World!"
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
-
-# Restart Nginx to apply changes
-service nginx restart
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+sudo touch /var/www/html/index.html
+sudo echo  "Hello World!" | sudo tee /var/www/html/index.html
+sudo service nginx restart
