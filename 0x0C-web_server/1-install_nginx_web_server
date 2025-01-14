@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
-# Installs and configures Nginx on an Ubuntu machine
-sudo apt-get -y update
-sudo apt-get -y install nginx
+# Installs and configures Nginx to serve "Hello World!" at the root URL
+
+# Update package list and install Nginx
+apt-get update -y
+apt-get install -y nginx
+
+# Allow HTTP traffic through the firewall
 sudo ufw allow 'Nginx HTTP'
-sudo touch /var/www/html/index.html
-sudo echo  "Hello World!" | sudo tee /var/www/html/index.html
-sudo service nginx restart
+
+# Create an HTML file with "Hello World!" content
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart Nginx to apply changes
+service nginx restart
