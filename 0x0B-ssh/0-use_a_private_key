@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
-# 0-use_a_private_key: Connect to a server using a private key
+# Connects to the server using the private key ~/.ssh/school and the IP provided as an argument
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <server-ip>"
+  exit 1
+fi
+
 ssh -i ~/.ssh/school ubuntu@"$1"
