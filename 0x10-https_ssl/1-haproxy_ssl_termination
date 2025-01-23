@@ -1,0 +1,33 @@
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+    # SSL settings
+    ca-base /etc/ssl/certs
+    crt-base /etc/ssl/private
+    ssl-default-bind-options no-sslv3 no-tls-tickets
+    ssl-default-bind-ciphers PROFILE=SYSTEM
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+frontend https_front
+    bind *:443 ssl crt /etc/ssl/private/your_certificate.pem
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web01 54.144.138.231:80 check
+    server web02 34.201.61.21:80 check
