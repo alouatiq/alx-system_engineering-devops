@@ -1,20 +1,28 @@
 #!/usr/bin/env bash
 # Script to query subdomains for a domain and print their DNS information
 
+# Validate input
+if [ -z "$1" ]; then
+    echo "Usage: $0 <domain> [subdomain]"
+    exit 1
+fi
+
 domain=$1
 subdomain=$2
 
+# Function to query a subdomain
 function get_subdomain_info {
     local sub=$1
     local dom=$2
-    result=$(dig "${sub}.${dom}" +short | awk 'NR==1 {print $0}')
+    result=$(dig +short "${sub}.${dom}" | awk 'NR==1 {print $0}')
     if [ -z "$result" ]; then
-        echo "The subdomain ${sub} does not exist."
+        echo "The subdomain ${sub}.${dom} does not exist or does not resolve to an A record."
     else
-        echo "The subdomain ${sub} is a A record and points to ${result}"
+        echo "The subdomain ${sub}.${dom} is an A record and points to ${result}."
     fi
 }
 
+# Check all subdomains or a specific one
 if [ -z "$subdomain" ]; then
     for sub in www lb-01 web-01 web-02; do
         get_subdomain_info "$sub" "$domain"
