@@ -24,7 +24,7 @@ defaults
     timeout server  50000ms
 
 frontend https_front
-    bind *:443 ssl crt /etc/ssl/private/your_certificate.pem
+    bind *:443 ssl crt /etc/ssl/private/digi101_tech.pem
     default_backend http_back
 
 backend http_back
