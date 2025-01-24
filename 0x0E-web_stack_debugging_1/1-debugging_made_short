@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Fix Nginx to listen on port 80 in 5 lines or less
 
-sed -i 's/listen .*/listen 80;/' /etc/nginx/sites-available/default
-sudo systemctl restart nginx
+sudo sed -i 's/listen .*/listen 80;/' /etc/nginx/sites-available/default
+sudo service nginx restart
+sudo service nginx status
