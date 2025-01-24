@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Ensures Nginx is installed, configured to listen on port 80, and running
-apt-get update -y && apt-get install -y nginx
-sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
-nginx -t  # Test the configuration
+# Ensures Nginx is running with the default configuration
+rm -f /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+nginx -t  # Validate configuration
 if [ $? -eq 0 ]; then
-    service nginx restart  # Restart Nginx only if the config is valid
+    service nginx restart  # Restart if configuration is valid
 else
     echo "Nginx configuration test failed."
     exit 1
