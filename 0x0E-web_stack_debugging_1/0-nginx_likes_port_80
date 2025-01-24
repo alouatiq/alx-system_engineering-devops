@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
-# Ensures Nginx is running with the default configuration
-rm -f /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-nginx -t  # Validate configuration
-if [ $? -eq 0 ]; then
-    service nginx restart  # Restart if configuration is valid
-else
-    echo "Nginx configuration test failed."
-    exit 1
-fi
+# Configures Nginx to listen on port 80 of all IPv4 addresses and ensures it is running
+apt-get update -y
+apt-get install -y nginx
+sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+service nginx restart
