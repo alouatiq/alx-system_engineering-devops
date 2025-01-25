@@ -1,24 +1,9 @@
 #!/usr/bin/env bash
-# Fix Nginx to listen on port 80
-
-# Ensure Nginx is installed
-if ! command -v nginx &> /dev/null; then
-    sudo apt-get update && sudo apt-get install -y nginx
-fi
+# Ensure Nginx listens on port 80
 
 # Update Nginx configuration to listen on port 80
 if ! grep -q "listen 80 default_server;" /etc/nginx/sites-enabled/default; then
     sudo sed -i '/listen \[::\]:80 default_server;/a \    listen 80 default_server;' /etc/nginx/sites-enabled/default
-fi
-
-# Stop Apache if it's running and using port 80
-if sudo netstat -tuln | grep -q ":80"; then
-    sudo systemctl stop apache2
-fi
-
-# Allow port 80 through UFW firewall
-if sudo ufw status | grep -q "80/tcp"; then
-    sudo ufw allow 80/tcp
 fi
 
 # Restart Nginx to apply changes
