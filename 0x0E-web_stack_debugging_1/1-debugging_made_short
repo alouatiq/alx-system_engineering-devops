@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Ensure Nginx listens on port 80 and serves the default page
-sed -i '/listen \[::\]:80 default_server;/a\    listen 80 default_server;' /etc/nginx/sites-enabled/default
-sudo systemctl stop nginx
-sudo systemctl start nginx
-curl -s 0:80 | grep "Welcome to nginx"
+# Ensures Nginx is running and listening on port 80
+cat /etc/nginx/sites-available/default > /etc/nginx/sites-enabled/default
+sudo service nginx restart
+rm /run/nginx.pid
