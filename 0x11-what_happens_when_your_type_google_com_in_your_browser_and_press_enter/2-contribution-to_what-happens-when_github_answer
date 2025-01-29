@@ -1,10 +1,36 @@
-### Contribution: Firewall Security in Network Communication
+# Contribution to "What Happens When" GitHub Project
 
-**Description:**
-I added a section explaining **firewall security** in network communication when a user accesses a website. This section covers **how firewalls filter packets, deep packet inspection (DPI), and stateful vs. stateless firewalls**.
+## Overview
+As part of my technical contributions to open-source projects, I have submitted a pull request to the **"What Happens When"** repository on GitHub. This project provides an in-depth breakdown of the entire process that occurs when a user types `google.com` into a web browser and presses enter.
 
-**Why This is Important:**
-- Firewalls play a crucial role in securing client-server communication.
-- Helps users understand how network security mechanisms interact with their web requests.
+## Contribution Details
+### **Title of Contribution**
+**"Added Load Balancing and Traffic Distribution section"**
 
-**Pull Request Link:**
+### **Pull Request Link**
+[PR #2490: Added Load Balancing and Traffic Distribution](https://github.com/alex/what-happens-when/pull/2490)
+
+### **Summary of Changes**
+In this contribution, I have introduced a **Load Balancing and Traffic Distribution** section that explains:
+- How web traffic is distributed across multiple servers.
+- Different types of load balancing strategies:
+  - **Round Robin**
+  - **Least Connections**
+  - **IP Hashing**
+  - **Geographic Load Balancing**
+- The role of **CDNs (Content Delivery Networks)** in optimizing traffic flow.
+- The impact of **load balancing on scalability, performance, and fault tolerance**.
+
+### **Why This Contribution Matters**
+Load balancing plays a crucial role in modern web infrastructure by:
+- Ensuring **high availability** and **fault tolerance**.
+- Distributing traffic efficiently to prevent **server overload**.
+- Enhancing **latency and response times** for end-users.
+- Supporting **horizontal scaling** in cloud-based architectures.
+
+This addition enhances the project's completeness by covering a critical aspect of internet traffic management.
+
+## References
+- **GitHub Repository:** [What Happens When](https://github.com/alex/what-happens-when)
+- **My Forked Repository:** [My Contribution](https://github.com/alouatiq/what-happens-when)
+- **Pull Request:** [PR #2490](https://github.com/alex/what-happens-when/pull/2490)
