@@ -1,0 +1,10 @@
+### Contribution: Firewall Security in Network Communication
+
+**Description:**
+I added a section explaining **firewall security** in network communication when a user accesses a website. This section covers **how firewalls filter packets, deep packet inspection (DPI), and stateful vs. stateless firewalls**.
+
+**Why This is Important:**
+- Firewalls play a crucial role in securing client-server communication.
+- Helps users understand how network security mechanisms interact with their web requests.
+
+**Pull Request Link:**
