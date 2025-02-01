@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# This script ensures Nginx is installed, configured, and running inside the Docker container
+# Ensure Nginx is installed, configured, and listening on port 80
 
-# Check if the container is running
+# Start the container if it's not running
 if ! docker ps --format '{{.Names}}' | grep -q '^nginx_debug_container$'; then
     echo "Starting nginx_debug_container..."
     docker start nginx_debug_container 2>/dev/null || docker run -d --name nginx_debug_container -p 80:80 nginx
@@ -17,16 +17,17 @@ fi
 mkdir -p /etc/nginx/sites-enabled
 
 if [ ! -f /etc/nginx/sites-enabled/default ]; then
-    echo 'Creating missing Nginx configuration...'
+    echo 'Creating Nginx default configuration...'
     cat <<EOL > /etc/nginx/sites-enabled/default
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    root /usr/share/nginx/html;
+    root /var/www/html;
     index index.html;
     server_name _;
     location / {
-        try_files \$uri \$uri/ =404;
+        return 200 'OK';
+        add_header Content-Type text/plain;
     }
 }
 EOL
