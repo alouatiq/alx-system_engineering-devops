@@ -1,37 +1,23 @@
-#!/usr/bin/env bash
-# Ensure Nginx is installed, configured, and listening on port 80
+#!/bin/bash
+# Ensure Nginx is installed and running inside the Docker container
 
-# Start the container if it's not running
-if ! docker ps --format '{{.Names}}' | grep -q '^nginx_debug_container$'; then
-    echo "Starting nginx_debug_container..."
+# Step 1: Start the container if it does not exist or is stopped
+if ! docker ps --format '{{.Names}}' | grep -q "^nginx_debug_container$"; then
+    echo "Starting Nginx container..."
     docker start nginx_debug_container 2>/dev/null || docker run -d --name nginx_debug_container -p 80:80 nginx
-    sleep 3  # Give some time for the container to start
+    sleep 3  # Wait for it to start
 fi
 
-# Ensure Nginx is properly set up inside the container
-docker exec nginx_debug_container bash -c "
-if ! command -v nginx &> /dev/null; then
-    apt update && apt install -y nginx
+# Step 2: Check if Nginx is running inside the container
+if ! docker exec nginx_debug_container pgrep nginx > /dev/null; then
+    echo "Nginx is not running inside the container. Restarting Nginx..."
+    docker exec nginx_debug_container nginx
 fi
 
-mkdir -p /etc/nginx/sites-enabled
-
-if [ ! -f /etc/nginx/sites-enabled/default ]; then
-    echo 'Creating Nginx default configuration...'
-    cat <<EOL > /etc/nginx/sites-enabled/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html;
-    server_name _;
-    location / {
-        return 200 'OK';
-        add_header Content-Type text/plain;
-    }
-}
-EOL
+# Step 3: Check if Nginx is listening on port 80 inside the container
+if ! docker exec nginx_debug_container ss -tulnp | grep -q ":80"; then
+    echo "Nginx is not listening on port 80 inside the container. Restarting..."
+    docker restart nginx_debug_container
 fi
 
-service nginx restart
-"
+echo "✅ Nginx is running and listening on port 80 inside the container."
