@@ -2,7 +2,8 @@
 # Debugging and fixing Nginx listening on port 80
 
 # Update package list and install Nginx if not installed
-apt-get update -y && apt-get install -y nginx
+sudo apt-get update
+sudo apt-get install -y nginx
 
 # Ensure Nginx is enabled and running
 systemctl enable nginx
