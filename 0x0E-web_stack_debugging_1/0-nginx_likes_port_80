@@ -1,20 +1,38 @@
 #!/usr/bin/env bash
-# Debugging and fixing Nginx listening on port 80
+# This script configures Nginx to listen on port 80 and ensures proper configuration
 
-# Update package list and install Nginx if not installed
-sudo apt-get update
-sudo apt-get install -y nginx
+# Stop the current Nginx container if it's running
+docker stop nginx_debug_container || true
+docker rm nginx_debug_container || true
 
-# Ensure Nginx is enabled and running
-systemctl enable nginx
-systemctl start nginx
+# Create a new Nginx container with proper configuration
+docker run -d --name nginx_debug_container -p 80:80 nginx
 
-# Update Nginx configuration to listen on all active IPv4 IPs
-sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
-sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/' /etc/nginx/sites-available/default
+# Create a temporary configuration file
+docker exec nginx_debug_container bash -c 'cat > /etc/nginx/conf.d/default.conf << EOF
+server {
+    listen 80;
+    listen [::]:80;
+    server_name localhost;
 
-# Restart Nginx to apply changes
-systemctl restart nginx
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+    }
+}
+EOF'
 
-# Verify that Nginx is listening on port 80
-ss -tulnp | grep ":80"
+# Reload Nginx configuration
+docker exec nginx_debug_container nginx -s reload
+
+# Test the configuration
+echo "Testing Nginx configuration..."
+sleep 2
+curl -I http://localhost
+
+# Verify Nginx is listening on port 80
+docker exec nginx_debug_container netstat -tulpn | grep :80
+
+
+2-chmod+x 0-nginx_likes_port_80
+3-./0-nginx_likes_port_80
