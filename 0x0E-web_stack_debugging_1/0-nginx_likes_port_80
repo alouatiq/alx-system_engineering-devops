@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Debugging and fixing Nginx listening on port 80
 
 # Update package list and install Nginx if not installed
