@@ -32,7 +32,3 @@ curl -I http://localhost
 
 # Verify Nginx is listening on port 80
 docker exec nginx_debug_container netstat -tulpn | grep :80
-
-
-2-chmod+x 0-nginx_likes_port_80
-3-./0-nginx_likes_port_80
