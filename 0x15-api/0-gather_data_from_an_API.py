@@ -14,7 +14,8 @@ if __name__ == "__main__":
         todos_url = url + "todos"
 
         user_response = requests.get(user_url)
-        user_response.raise_for_status()  # Raises an HTTPError for bad responses
+        # Raises an HTTPError for bad responses
+        user_response.raise_for_status()
 
         todos_response = requests.get(
             todos_url, params={"userId": sys.argv[1]}
