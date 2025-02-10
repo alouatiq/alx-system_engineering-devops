@@ -4,6 +4,7 @@ import csv
 import requests
 import sys
 
+
 def export_tasks_to_csv(user_id):
     api_url = "https://jsonplaceholder.typicode.com/"
     try:
@@ -11,23 +12,27 @@ def export_tasks_to_csv(user_id):
         if user_response.status_code != 200:
             print("Failed to retrieve user data")
             return
-        
+
         user = user_response.json()
-        todos_response = requests.get(f"{api_url}todos", params={"userId": user_id})
+        todos_response = requests.get(
+            f"{api_url}todos", params={
+                "userId": user_id})
         if todos_response.status_code != 200:
             print("Failed to retrieve todos data")
             return
-        
+
         todos = todos_response.json()
 
         with open(f"{user_id}.csv", 'w', newline='') as file:
             writer = csv.writer(file, quoting=csv.QUOTE_ALL)
             for todo in todos:
-                writer.writerow([user_id, user['username'], todo['completed'], todo['title']])
+                writer.writerow([user_id, user['username'],
+                                todo['completed'], todo['title']])
     except requests.RequestException as e:
         print(f"HTTP Request failed: {e}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -35,5 +40,3 @@ if __name__ == "__main__":
         sys.exit(1)
 
     export_tasks_to_csv(sys.argv[1])
-
-

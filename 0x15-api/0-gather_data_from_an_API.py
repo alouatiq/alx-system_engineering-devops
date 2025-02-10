@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
         user_response = requests.get(user_url)
         user_response.raise_for_status()  # Raises an HTTPError for bad responses
-        
+
         todos_response = requests.get(
             todos_url, params={"userId": sys.argv[1]}
         )
@@ -23,17 +23,17 @@ if __name__ == "__main__":
 
         user = user_response.json()
         todos = todos_response.json()
-        
-        completed = [task['title'] for task in todos if task.get('completed', False)]
+
+        completed = [task['title']
+                     for task in todos if task.get('completed', False)]
 
         task_summary = "Employee {} is done with tasks({}/{}):".format(
             user.get('name'), len(completed), len(todos)
         )
         print(task_summary)
-        
+
         for completed_task in completed:
             print("\t {}".format(completed_task))
 
     except requests.RequestException as e:
         print("HTTP Request failed: {}".format(e))
-

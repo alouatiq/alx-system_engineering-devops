@@ -3,6 +3,7 @@
 import json
 import requests
 
+
 def export_all_tasks():
     base_url = "https://jsonplaceholder.typicode.com/"
     try:
@@ -10,7 +11,9 @@ def export_all_tasks():
         all_tasks = {}
 
         for user in users:
-            tasks = requests.get(f"{base_url}todos", params={"userId": user['id']}).json()
+            tasks = requests.get(
+                f"{base_url}todos", params={
+                    "userId": user['id']}).json()
             all_tasks[user['id']] = [{
                 "username": user['username'],
                 "task": task['title'],
@@ -22,7 +25,6 @@ def export_all_tasks():
     except requests.RequestException:
         print("Failed to retrieve or write data.")
 
+
 if __name__ == "__main__":
     export_all_tasks()
-
-
