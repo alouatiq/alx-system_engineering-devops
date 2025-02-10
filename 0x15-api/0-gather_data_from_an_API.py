@@ -10,19 +10,29 @@ if __name__ == "__main__":
 
     url = "https://jsonplaceholder.typicode.com/"
     try:
-        user_response = requests.get(url + "users/{}".format(sys.argv[1]))
+        user_url = url + "users/{}".format(sys.argv[1])
+        todos_url = url + "todos"
+
+        user_response = requests.get(user_url)
         user_response.raise_for_status()  # Raises an HTTPError for bad responses
-        todos_response = requests.get(url + "todos", params={"userId": sys.argv[1]})
+        
+        todos_response = requests.get(
+            todos_url, params={"userId": sys.argv[1]}
+        )
         todos_response.raise_for_status()
 
         user = user_response.json()
         todos = todos_response.json()
-        completed = [t.get("title") for t in todos if t.get("completed") is True]
+        
+        completed = [task['title'] for task in todos if task.get('completed', False)]
 
-        print("Employee {} is done with tasks({}/{}):".format(
-            user.get("name"), len(completed), len(todos)))
-        [print("\t {}".format(c)) for c in completed]
+        task_summary = "Employee {} is done with tasks({}/{}):".format(
+            user.get('name'), len(completed), len(todos)
+        )
+        print(task_summary)
+        
+        for completed_task in completed:
+            print("\t {}".format(completed_task))
 
     except requests.RequestException as e:
         print("HTTP Request failed: {}".format(e))
-
