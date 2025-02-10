@@ -1,37 +1,28 @@
 #!/usr/bin/python3
+"""Export an employee's tasks to a JSON file."""
+import json
 import requests
 import sys
-import json
 
-def export_tasks_to_json(employee_id):
-    """ Fetches tasks and exports them to a JSON file """
-    # API endpoints
-    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todos_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+def export_tasks_to_json(user_id):
+    api_url = "https://jsonplaceholder.typicode.com/"
+    try:
+        user = requests.get(f"{api_url}users/{user_id}").json()
+        tasks = requests.get(f"{api_url}todos", params={"userId": user_id}).json()
 
-    # Fetching data
-    user_response = requests.get(user_url)
-    todos_response = requests.get(todos_url)
-
-    if user_response.status_code != 200 or todos_response.status_code != 200:
-        print("Failed to retrieve data")
-        return
-
-    user_data = user_response.json()
-    todos_data = todos_response.json()
-
-    # JSON file creation
-    with open(f"{employee_id}.json", 'w') as jsonfile:
-        tasks_list = [{
-            "username": user_data['username'],
+        tasks_data = [{
             "task": task['title'],
-            "completed": task['completed']
-        } for task in todos_data]
+            "completed": task['completed'],
+            "username": user['username']
+        } for task in tasks]
 
-        json.dump({str(employee_id): tasks_list}, jsonfile)
+        with open(f"{user_id}.json", 'w') as json_file:
+            json.dump({user_id: tasks_data}, json_file)
+    except requests.RequestException:
+        print("Failed to retrieve or write data.")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: ./2-export_to_JSON.py <employee_id>")
-    else:
-        export_tasks_to_json(int(sys.argv[1]))
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py <user_id>")
+        sys.exit(1)
+    export_tasks_to_json(sys.argv[1])
