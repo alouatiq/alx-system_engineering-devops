@@ -26,3 +26,4 @@ if __name__ == "__main__":
         print("Usage: python3 script.py <user_id>")
         sys.exit(1)
     export_tasks_to_json(sys.argv[1])
+

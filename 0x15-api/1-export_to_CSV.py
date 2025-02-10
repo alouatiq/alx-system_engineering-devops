@@ -35,3 +35,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     export_tasks_to_csv(sys.argv[1])
+
