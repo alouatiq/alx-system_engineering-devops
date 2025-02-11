@@ -1,34 +1,5 @@
 #!/usr/bin/env bash
-# This script configures Nginx to listen on port 80 and ensures proper configuration
-
-# Stop the current Nginx container if it's running
-docker stop nginx_debug_container || true
-docker rm nginx_debug_container || true
-
-# Create a new Nginx container with proper configuration
-docker run -d --name nginx_debug_container -p 80:80 nginx
-
-# Create a temporary configuration file
-docker exec nginx_debug_container bash -c 'cat > /etc/nginx/conf.d/default.conf << EOF
-server {
-    listen 80;
-    listen [::]:80;
-    server_name localhost;
-
-    location / {
-        root /usr/share/nginx/html;
-        index index.html;
-    }
-}
-EOF'
-
-# Reload Nginx configuration
-docker exec nginx_debug_container nginx -s reload
-
-# Test the configuration
-echo "Testing Nginx configuration..."
-sleep 2
-curl -I http://localhost
-
-# Verify Nginx is listening on port 80
-docker exec nginx_debug_container netstat -tulpn | grep :80
+# Configure Nginx to listen on port 80 on all active IPv4 IPs
+sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/' /etc/nginx/sites-available/default
+service nginx restart
