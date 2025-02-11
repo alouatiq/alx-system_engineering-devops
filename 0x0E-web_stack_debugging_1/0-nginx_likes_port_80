@@ -2,4 +2,5 @@
 # Configure Nginx to listen on port 80 on all active IPv4 IPs
 sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
 sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/' /etc/nginx/sites-available/default
+cat /etc/nginx/sites-available/default > /etc/nginx/sites-enabled/default
 service nginx restart
