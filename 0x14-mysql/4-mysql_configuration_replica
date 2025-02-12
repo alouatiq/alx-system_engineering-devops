@@ -4,11 +4,4 @@ log_bin                = /var/log/mysql/mysql-bin.log
 relay_log              = /var/log/mysql/mysql-relay-bin.log
 binlog_do_db           = tyrell_corp
 
-# -------------------------------------------------
-# As with the primary, ensure the bind-address line is commented out:
-#
-# bind-address          = 127.0.0.1
-#
-# -------------------------------------------------
-
-# Additional replication-related configs can be added if needed
+# bind-address          = 127.0.0.1  (commented out if present)
