@@ -4,4 +4,4 @@ log_bin                = /var/log/mysql/mysql-bin.log
 relay_log              = /var/log/mysql/mysql-relay-bin.log
 binlog_do_db           = tyrell_corp
 
-# bind-address          = 127.0.0.1  (commented out if present)
+# bind-address          = 127.0.0.1
