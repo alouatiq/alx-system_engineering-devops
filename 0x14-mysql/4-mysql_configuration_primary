@@ -3,16 +3,5 @@ server-id               = 1
 log_bin                = /var/log/mysql/mysql-bin.log
 binlog_do_db           = tyrell_corp
 
-# -------------------------------------------------
-# In many default MySQL configs for Ubuntu 16.04, you might see:
+# Usually we comment out bind-address for replication:
 # bind-address          = 127.0.0.1
-# The ALX instructions say "do not use the bind-address, just comment out this parameter"
-# so either remove or comment it out:
-#
-# bind-address          = 127.0.0.1
-#
-# That way MySQL can listen for remote connections (including from your replica).
-# -------------------------------------------------
-
-# You can keep other defaults, but do NOT add bind-address here
-# if you need remote connections for replication
