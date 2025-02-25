@@ -1,24 +1,31 @@
 #!/usr/bin/python3
 """
-Queries the Reddit API and returns the number of subscribers for a given subreddit.
+Module to interact with the Reddit API and get subreddit subscriber count.
 """
 import requests
 
+# Custom User-Agent to avoid Reddit API rate limits
+HEADERS = {"User-Agent": "ALX-Project-RedditAPI/1.0"}
 
 def number_of_subscribers(subreddit):
-    """Return the number of subscribers for a given subreddit."""
-    if not subreddit or not isinstance(subreddit, str):
-        return 0
+    """
+    Queries the Reddit API to get the total number of subscribers
+    for a given subreddit.
 
+    Args:
+        subreddit (str): The subreddit name.
+
+    Returns:
+        int: The number of subscribers, or 0 if the subreddit is invalid.
+    """
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {'User-Agent': 'customUserAgent/1.0'}  # Use a custom User-Agent
-
-    response = requests.get(url, headers=headers, allow_redirects=False)
-
-    if response.status_code != 200:
-        return 0  # Invalid subreddit or request error
 
     try:
-        return response.json().get("data", {}).get("subscribers", 0)
-    except Exception:
-        return 0
+        response = requests.get(url, allow_redirects=False, headers=HEADERS)
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("data", {}).get("subscribers", 0)
+        else:
+            return 0  # Return 0 if subreddit is invalid or inaccessible
+    except requests.exceptions.RequestException:
+        return 0  # Return 0 in case of any network/API errors
