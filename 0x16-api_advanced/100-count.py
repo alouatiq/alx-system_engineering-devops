@@ -22,7 +22,8 @@ def count_words(subreddit, word_list, after=None, counts=None, freq=None):
         freq (dict): Frequency map for handling duplicates in word_list.
 
     Returns:
-        None. (Prints output or prints nothing if subreddit invalid / no matches.)
+        None. (Prints output or prints nothing
+        if subreddit invalid / no matches.)
     """
 
     # On the first call, initialize everything
