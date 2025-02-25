@@ -15,7 +15,8 @@ def recurse(subreddit, hot_list=[], after=None):
         after (str): A pagination parameter for Reddit API.
 
     Returns:
-        list: A list of all hot article titles, or None if the subreddit is invalid.
+        list: A list of all hot article titles,
+        or None if the subreddit is invalid.
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "MyRedditClient/1.0"}
