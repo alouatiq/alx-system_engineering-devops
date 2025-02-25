@@ -7,6 +7,7 @@ import requests
 # Custom User-Agent to avoid Reddit API rate limits
 HEADERS = {"User-Agent": "ALX-Project-RedditAPI/1.0"}
 
+
 def number_of_subscribers(subreddit):
     """
     Queries the Reddit API to get the total number of subscribers
