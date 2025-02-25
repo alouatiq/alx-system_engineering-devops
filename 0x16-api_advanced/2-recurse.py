@@ -8,12 +8,12 @@ import requests
 
 def recurse(subreddit, hot_list=[], after=None):
     """Recursively fetches all hot article titles for a given subreddit.
-    
+
     Args:
         subreddit (str): The subreddit name.
         hot_list (list): A list to store the titles.
         after (str): A pagination parameter for Reddit API.
-    
+
     Returns:
         list: A list of all hot article titles, or None if the subreddit is invalid.
     """
@@ -21,7 +21,11 @@ def recurse(subreddit, hot_list=[], after=None):
     headers = {"User-Agent": "MyRedditClient/1.0"}
     params = {"limit": 100, "after": after}
 
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    response = requests.get(
+        url,
+        headers=headers,
+        params=params,
+        allow_redirects=False)
 
     if response.status_code == 200:
         data = response.json().get("data", {})

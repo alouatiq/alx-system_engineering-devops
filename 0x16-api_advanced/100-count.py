@@ -11,16 +11,16 @@ def count_words(subreddit, word_list, after=None, counts=None, freq=None):
     """
     Recursively queries the Reddit API, parses titles of all hot articles,
     and counts occurrences of each keyword in word_list (case-insensitive).
-    
+
     Prints results in descending order by count, then ascending order by word.
-    
+
     Args:
         subreddit (str): The subreddit to query.
         word_list (list): List of words to search for in post titles.
         after (str): The "after" pagination token, used in recursive calls.
         counts (dict): Running tally of counts for each keyword.
         freq (dict): Frequency map for handling duplicates in word_list.
-        
+
     Returns:
         None. (Prints output or prints nothing if subreddit invalid / no matches.)
     """
@@ -46,7 +46,11 @@ def count_words(subreddit, word_list, after=None, counts=None, freq=None):
         params["after"] = after
 
     # Make the request
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    response = requests.get(
+        url,
+        headers=headers,
+        params=params,
+        allow_redirects=False)
     if response.status_code != 200:
         # Invalid subreddit or some other error → do not print anything
         return
@@ -72,7 +76,7 @@ def count_words(subreddit, word_list, after=None, counts=None, freq=None):
         return count_words(subreddit, word_list, after, counts, freq)
     else:
         # All pages processed, now we sort and print
-        
+
         # Filter out zero-count words
         filtered = [(word, cnt) for word, cnt in counts.items() if cnt > 0]
 
