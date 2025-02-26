@@ -1,4 +1,4 @@
-# Fix the WordPress 500 error by installing missing packages, setting permissions, and enabling mod_rewrite
+# This Puppet manifest fixes the WordPress 500 error by installing missing packages, setting permissions, etc.
 package { ['php5', 'php5-mysql']:
   ensure => installed,
 }
