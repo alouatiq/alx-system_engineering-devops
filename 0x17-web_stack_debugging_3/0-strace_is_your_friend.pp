@@ -1,19 +1,19 @@
-# This Puppet manifest fixes the WordPress 500 error by installing missing packages, setting permissions, etc.
-Exec { path => ['/bin', '/usr/bin', '/usr/sbin'] }
+# Fixing WordPress 500 errors
+Exec { path => ['/bin','/usr/bin','/usr/sbin'] }
 
 package { 'apache2':
   ensure => installed,
 }
 
 package { ['php5', 'php5-mysql']:
-  ensure => installed,
+  ensure  => installed,
   require => Package['apache2'],
 }
 
 service { 'apache2':
   ensure  => running,
   enable  => true,
-  require => Package['apache2'],
+  require => [ Package['apache2'], Package['php5'], Package['php5-mysql'] ],
 }
 
 exec { 'fix-wordpress-permissions':
