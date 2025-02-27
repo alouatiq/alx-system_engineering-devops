@@ -1,29 +1,17 @@
-# Fixing WordPress 500 errors
-Exec { path => ['/bin','/usr/bin','/usr/sbin'] }
+# This Puppet manifest fixes the WordPress 500 error caused by a .phpp reference in wp-settings.php
 
-package { 'apache2':
-  ensure => installed,
-}
+Exec { path => ['/bin', '/usr/bin', '/usr/sbin'] }
 
-package { ['php5', 'php5-mysql']:
-  ensure  => installed,
-  require => Package['apache2'],
+exec { 'fix-wordpress':
+  # Use sed to replace .phpp with .php in wp-settings.php
+  command => '/bin/sed -i "s/class-wp-locale.phpp/class-wp-locale.php/g" /var/www/html/wp-settings.php',
+  # Only run if the .phpp typo is still present
+  onlyif  => 'grep -q "class-wp-locale.phpp" /var/www/html/wp-settings.php',
+  # Notify Apache so it can reload if the file changed
+  notify  => Service['apache2'],
 }
 
 service { 'apache2':
-  ensure  => running,
-  enable  => true,
-  require => [ Package['apache2'], Package['php5'], Package['php5-mysql'] ],
-}
-
-exec { 'fix-wordpress-permissions':
-  command => 'chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html',
-  onlyif  => 'test -d /var/www/html',
-  require => Service['apache2'],
-}
-
-exec { 'enable-mod-rewrite':
-  command => 'a2enmod rewrite && service apache2 restart',
-  unless  => 'test -L /etc/apache2/mods-enabled/rewrite.load',
-  require => Service['apache2'],
+  ensure => running,
+  enable => true,
 }
