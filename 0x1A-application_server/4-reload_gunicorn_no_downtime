@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Reload Gunicorn without downtime
+
+echo "Reloading Gunicorn gracefully..."
+sudo systemctl reload gunicorn
+
+# Verify that Gunicorn has restarted with new workers
+echo "Checking Gunicorn process..."
+ps aux | grep gunicorn | grep -v grep
