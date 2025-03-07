@@ -8,7 +8,8 @@ exec { 'increase_nginx_limit':
 }
 
 exec { 'reload_nginx':
-  command     => 'service nginx reload',
+  command     => '/usr/sbin/service nginx reload',
   refreshonly => true,
   subscribe   => Exec['increase_nginx_limit'],
+  path        => ['/usr/sbin', '/usr/bin', '/bin'],
 }
