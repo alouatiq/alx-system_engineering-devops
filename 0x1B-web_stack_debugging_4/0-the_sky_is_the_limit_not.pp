@@ -1,18 +1,13 @@
 # 0-the_sky_is_the_limit_not.pp
-# This Puppet manifest fixes Nginx so it can handle high concurrency and eliminate failed requests
-
-package { 'nginx':
-  ensure => installed,
-}
-
-service { 'nginx':
-  ensure     => running,
-  enable     => true,
-  require    => Package['nginx'],
-}
+# This Puppet manifest raises the Nginx worker connections to handle more requests concurrently.
 
 exec { 'fix_nginx_worker_connections':
-  command => 'sed -i "s/worker_connections [0-9]\\+;/worker_connections 1024;/" /etc/nginx/nginx.conf && service nginx restart',
+  command => 'sed -i "s/worker_connections 768;/worker_connections 1024;/" /etc/nginx/nginx.conf && service nginx restart',
   unless  => 'grep "worker_connections 1024;" /etc/nginx/nginx.conf',
-  require => Service['nginx'],
+}
+
+exec { 'reload_nginx':
+  command     => 'service nginx reload',
+  refreshonly => true,
+  subscribe   => Exec['fix_nginx_worker_connections'],
 }
