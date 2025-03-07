@@ -1,12 +1,8 @@
-# This Puppet manifest raises the Nginx worker connections to handle more requests concurrently.
+# 0-the_sky_is_the_limit_not.pp
+# This Puppet manifest optimizes the Nginx web server configuration to handle high request loads.
 
-exec { 'fix_nginx_worker_connections':
-  command => 'sed -i "s/worker_connections 768;/worker_connections 1024;/" /etc/nginx/nginx.conf && service nginx restart',
-  unless  => 'grep "worker_connections 1024;" /etc/nginx/nginx.conf',
-}
-
-exec { 'reload_nginx':
-  command     => 'service nginx reload',
-  refreshonly => true,
-  subscribe   => Exec['fix_nginx_worker_connections'],
+exec { 'optimize_nginx':
+  command => 'sed -i "s/15/4069/" /etc/default/nginx && service nginx restart',
+  unless  => 'grep "4069" /etc/default/nginx',
+  path    => '/usr/local/bin/:/bin/:/usr/bin/',
 }
