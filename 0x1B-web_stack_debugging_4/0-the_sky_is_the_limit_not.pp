@@ -2,7 +2,7 @@
 # This Puppet manifest modifies the Nginx configuration to handle higher concurrent requests.
 
 exec { 'increase_nginx_limit':
-  command => 'sed -i "s/15/4069/" /etc/default/nginx && service nginx restart',
+  command => 'sed -i "s/15/4069/" /etc/default/nginx && sudo service nginx restart',
   unless  => 'grep "4069" /etc/default/nginx',
   path    => '/usr/local/bin/:/bin/:/usr/bin/',
 }
